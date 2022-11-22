@@ -229,11 +229,16 @@ namespace YAKD
             UpdateKeyDisplayerForm();
         }
 
-        #endregion
+		private void DisplayOnInputCheckBox_Click(object sender, RoutedEventArgs e) {
+            _settings.EnableDisplayOnInput(DisplayOnInputCheckBox.IsChecked);
+            UpdateKeyDisplayerForm();
+		}
 
-        #region Keys
+		#endregion
 
-        private void FontComboBox_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+		#region Keys
+
+		private void FontComboBox_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
         {
             if (((ComboBoxItem)e.TargetObject).Content == FontComboBox.SelectedItem)
             {
@@ -484,8 +489,10 @@ namespace YAKD
                     _isMouseEnabled = fileSettings.MouseEnabled;
                     _settings.KeysAlignment = fileSettings.KeysAlignment;
                     _settings.DisplayDelay = fileSettings.DisplayDelay;
+                    _settings.DisplayOnInput = fileSettings.DisplayOnInput;
 
-                    if (!fileSettings.FirstLaunchStatistic)
+
+					if (!fileSettings.FirstLaunchStatistic)
                     {
                         SendStatisticAsync();
                     }
@@ -536,6 +543,7 @@ namespace YAKD
                 fileSettings.KeysAlignment = _settings.KeysAlignment;
                 fileSettings.DisplayDelay = _settings.DisplayDelay;
                 fileSettings.Created = true;
+                fileSettings.DisplayOnInput = _settings.DisplayOnInput;
             }
             catch (Exception)
             {
@@ -673,7 +681,9 @@ namespace YAKD
             }
         }
 
-        private async void CheckForUpdatesAsync()
+		
+
+		private async void CheckForUpdatesAsync()
         {
             await Task.Run(() =>
             {

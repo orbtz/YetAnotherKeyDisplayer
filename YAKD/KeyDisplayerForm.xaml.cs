@@ -29,6 +29,9 @@ namespace YAKD
 
         private int _displayDelay;
 
+        private bool _displayOnInput;
+        private double _backgroundColorOpacity;
+
         private readonly List<string> _keys;
 
         #endregion
@@ -67,10 +70,12 @@ namespace YAKD
             KeysTextBlock.HorizontalAlignment = settings.KeysAlignment;
             var solidColor = new SolidColorBrush(settings.BackgroundColor)
             {
-                Opacity = settings.BackgroundColorOpacity
+                Opacity = (settings.DisplayOnInput ? 0 : settings.BackgroundColorOpacity)
             };
             Background = solidColor;
-            if (settings.DemoKeys != "")
+            _backgroundColorOpacity = settings.BackgroundColorOpacity;
+
+			if (settings.DemoKeys != "")
             {
                 KeysTextBlock.Text = settings.DemoKeys;
                 _isKeyboardHookEnabled = false;
@@ -92,8 +97,10 @@ namespace YAKD
             ResizeMode = settings.CanResize ? ResizeMode.CanResizeWithGrip : ResizeMode.NoResize;
             _isWindowShouldBeFixed = settings.FixWindow;
             _displayDelay = settings.DisplayDelay;
+            _displayOnInput = settings.DisplayOnInput;
 
-            InitializeMouseHook(settings.MouseEnabled);
+
+			InitializeMouseHook(settings.MouseEnabled);
         }
 
         #endregion
@@ -159,7 +166,12 @@ namespace YAKD
             if (!_keys.Contains(key))
             {
                 _keys.Add(key);
-                ShowKeys();
+
+				if (_displayOnInput) {
+					Background.Opacity = _backgroundColorOpacity;
+				}
+
+				ShowKeys();
             }
         }
 
@@ -172,6 +184,10 @@ namespace YAKD
                 await Task.Delay(_displayDelay);
             }
 
+            if (_displayOnInput) {
+                Background.Opacity = 0.01;
+            }
+            
             ShowKeys();
         }
 

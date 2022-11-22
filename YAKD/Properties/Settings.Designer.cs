@@ -262,5 +262,17 @@ namespace YAKD.Properties {
                 this["DisplayDelay"] = value;
             }
         }
-    }
+
+		[global::System.Configuration.UserScopedSettingAttribute()]
+		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+		[global::System.Configuration.DefaultSettingValueAttribute("0")]
+		public bool DisplayOnInput {
+			get {
+				return ( (bool)( this ["DisplayOnInput"] ) );
+			}
+			set {
+				this ["DisplayOnInput"] = value;
+			}
+		}
+	}
 }

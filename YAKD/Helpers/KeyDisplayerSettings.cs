@@ -128,14 +128,19 @@ namespace YAKD.Helpers
         /// </summary>
         public int DisplayDelay { get; set; }
 
-        #endregion
+		/// <summary>
+		/// Display the window only on key press / mouse click
+		/// </summary>
+		public bool DisplayOnInput { get; set; }
 
-        #region Constructor
+		#endregion
 
-        /// <summary>
-        /// Initializes a new instance of KeyDisplayerSettings class with default settings
-        /// </summary>
-        public KeyDisplayerSettings()
+		#region Constructor
+
+		/// <summary>
+		/// Initializes a new instance of KeyDisplayerSettings class with default settings
+		/// </summary>
+		public KeyDisplayerSettings()
         {
             FontFamily = new FontFamily("Arial");
             FontSize = 16;
@@ -210,6 +215,19 @@ namespace YAKD.Helpers
             }
         }
 
-        #endregion
-    }
+		/// <summary>
+		/// Fix the window option
+		/// </summary>
+		/// <param name="value">Value</param>
+		public void EnableDisplayOnInput(bool? value) {
+			if (value.HasValue && value.Value) {
+				DisplayOnInput = true;
+			}
+			else {
+				DisplayOnInput = false;
+			}
+		}
+
+		#endregion
+	}
 }
